@@ -1,0 +1,87 @@
+<!-- https://www.w3docs.com/snippets/html/how-to-create-a-table-with-a-fixed-header-and-scrollable-body.html -->
+
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            list-style-type: none;
+            height: 100px;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        li {
+            float: left;
+        }
+        
+        li a {
+            display: block;
+            color: #F7F9F9;
+            background-color: #130F1C;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        
+        li a:hover:not(.active) {
+            background-color: #0F7173;
+        }
+        
+        .logout {
+            background-color: #C36004;
+        }
+        .active {
+            background-color: #0F7173;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <!-- Create manager Navbar with logo, 3 pages, a welcome message displaying username, logout button -->
+    <ul>
+        <li style="width:250px;height:60;margin:20px 0px 20px 25px;"><img src="/static/img/Logo-nav.png"></li>
+        <li style="margin:25px 25px 25px 25px;"><a href="{{url_for('managerpage')}}" class="active">Search items</a></li>
+        <li style="margin:25px 25px 25px 25px;"><a href="{{url_for('manageraddpage')}}">Add new item</a></li>
+        <li style="float:right;margin:25px 25px 25px 25px;"><a href={{ url_for('user.logout') }} class="logout">{%trans%}Log out{%endtrans%}</a></li>
+        <li style="float:right;margin:25px 25px 25px 25px;line-height: 46px;">Welcome back {%if current_user.is_authenticated %}{{current_user.username}}{% endif %}!</li>    
+    </ul>
+
+<form method="post" action="">
+    {{ form.hidden_tag() }}
+    {{ form.searchitem() }}
+    {{ form.submitsearch() }}
+</form>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>OEM</th>
+        <th>Amount</th>
+        <th>Minamount</th>
+        <th>Options</th>
+    </tr>
+    {% for value in select_items %}
+        <tr>
+            {% if value[3] > value[2] %}
+                {% for text in value %}
+                    <td style="color: #cc3723;">{{text}}</td>
+                {% endfor %}
+                <td><a href="../manager/options/{{ value[1] }}"><button>Options</button></a></td>
+            {% else %}
+                {% for text in value %}
+                    <td>{{text}}</td>
+                {% endfor %}
+                <td><a href="../manager/options/{{ value[1] }}"><button>Options</button></a></td>
+            {% endif %}
+        </tr>
+    {% endfor %} 
+
+</table>
+
+{% endblock %}

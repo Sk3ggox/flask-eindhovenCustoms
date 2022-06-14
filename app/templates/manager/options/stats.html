@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body>
+    <center>
+      <h1>{{ title }}</h1>
+      <p>{{current_amount}}</p>
+    </center>
+    <center>
+      <div
+        class="chart-container"
+        style="position: relative; height: 40vh; width: 80vw"
+      >
+        <canvas id="myChart"></canvas>
+      </div>
+
+      <script>
+             const dataset = [
+             {% for item in values[::-1] %}
+                  '{{item}}',
+             {% endfor %}
+             ];
+             const labels = [
+                {% for item in labels[::-1] %}
+                '{{item}}',
+                {% endfor %}
+             ];
+             const data = {
+               labels: labels,
+               datasets: [{
+                 label: 'Amount of items in storage',
+                 backgroundColor: 'rgb(255, 99, 132)',
+                 borderColor: 'rgb(255, 99, 132)',
+                 data: dataset,
+               }]
+             };
+             const config = {
+               type: 'line',
+               data: data,
+               options: {}
+             };
+
+             const myChart = new Chart(
+               document.getElementById('myChart'),
+               config
+             );
+      </script>
+    </center>
+  </body>
+</html>

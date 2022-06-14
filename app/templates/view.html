@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Viewpage{% endblock %}
+{% block content %}
+<table>
+    <tr>
+        <th>Name</th>
+        <th>OEM</th>
+        <th>Amount</th>
+    </tr>
+    {% for value in select_items %}
+    <tr>
+        {% for text in value %}
+            <td>{{text}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %} 
+
+</table>
+    
+{% endblock %}
+
+<!-- https://www.w3docs.com/snippets/html/how-to-create-a-table-with-a-fixed-header-and-scrollable-body.html -->
