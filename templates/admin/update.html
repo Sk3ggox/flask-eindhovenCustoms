@@ -44,42 +44,45 @@
     <!-- Create manager Navbar with logo, 3 pages, a welcome message displaying username, logout button -->
     <ul>
         <li style="width:250px;height:60;margin:20px 0px 20px 25px;"><img src="/static/img/Logo-nav.png"></li>
-        <li style="margin:25px 25px 25px 25px;"><a href="{{url_for('managerpage')}}" class="active">Search items</a></li>
-        <li style="margin:25px 25px 25px 25px;"><a href="{{url_for('manageraddpage')}}">Add new item</a></li>
+        <li style="margin:25px 25px 25px 25px;"><a href="{{url_for('adminpage')}}" class="active">Users</a></li>
+        <li style="margin:25px 25px 25px 25px;"><a href="{{url_for('adduser')}}">Add user</a></li>
         <li style="float:right;margin:25px 25px 25px 25px;"><a href={{ url_for('user.logout') }} class="logout">{%trans%}Log out{%endtrans%}</a></li>
         <li style="float:right;margin:25px 25px 25px 25px;line-height: 46px;">Welcome back {%if current_user.is_authenticated %}{{current_user.username}}{% endif %}!</li>
     </ul>
-
-<form method="post" action="">
-    {{ form.hidden_tag() }}
-    {{ form.searchitem() }}
-    {{ form.submitsearch() }}
-</form>
-
-<table>
-    <tr>
-        <th>Name</th>
-        <th>OEM</th>
-        <th>Amount</th>
-        <th>Minamount</th>
-        <th>Options</th>
-    </tr>
-    {% for value in select_items %}
+    <table>
         <tr>
-            {% if value[3] > value[2] %}
-                {% for text in value %}
-                    <td style="color: #cc3723;">{{text}}</td>
-                {% endfor %}
-                <td><a href="../manager/options/{{ value[1] }}"><button>Options</button></a></td>
-            {% else %}
-                {% for text in value %}
-                    <td>{{text}}</td>
-                {% endfor %}
-                <td><a href="../manager/options/{{ value[1] }}"><button>Options</button></a></td>
-            {% endif %}
+            <th>ID</th>
+            <th>Active</th>
+            <th>Username</th>
+            <th>Role</th>
         </tr>
-    {% endfor %} 
-
-</table>
-
+        <tr style="text-align:center">
+            {% for value in user %}
+            <td>
+                <p>{{value}}</p>
+            </td>
+            {% endfor %}
+        </tr>
+        <tr style="text-align:center">
+            <form method="post" action="">
+                {{form.csrf_token}}
+                <td>
+                    {{form.id(value=id)}}
+                </td>
+                <td>
+                    {{form.active()}}
+                </td>
+                <td>
+                    {{form.username()}}
+                </td>
+                <td>
+                    {{form.role()}}
+                </td>
+                <td>
+                    {{form.submitedit()}}
+                </td>
+            </form>
+        </tr>
+    </table>
+    
 {% endblock %}

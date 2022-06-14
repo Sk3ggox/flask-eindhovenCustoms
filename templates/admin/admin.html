@@ -44,15 +44,17 @@
     <!-- Create manager Navbar with logo, 3 pages, a welcome message displaying username, logout button -->
     <ul>
         <li style="width:250px;height:60;margin:20px 0px 20px 25px;"><img src="/static/img/Logo-nav.png"></li>
+        <li style="margin:25px 25px 25px 25px;"><a href="{{url_for('adminpage')}}" class="active">{%trans%}Users{%endtrans%}</a></li>
+        <li style="margin:25px 25px 25px 25px;"><a href="{{url_for('adduser')}}">Add user</a></li>
         <li style="float:right;margin:25px 25px 25px 25px;"><a href={{ url_for('user.logout') }} class="logout">{%trans%}Log out{%endtrans%}</a></li>
         <li style="float:right;margin:25px 25px 25px 25px;line-height: 46px;">Welcome back {%if current_user.is_authenticated %}{{current_user.username}}{% endif %}!</li>
     </ul>
-
 <table>
     <tr>
         <th>ID</th>
         <th>Active</th>
         <th>Username</th>
+        <th>Role</th>
     </tr>
     {% for value in users %}
         <tr>
@@ -66,9 +68,13 @@
                 {{value.username}}
             </td>
             <td>
+                {{value.name}}
+            </td>
+            <td>
                 <form method="post">
                     {{crudform.csrf_token()}}
                     {{crudform.id(value=value.id)}}
+                    {{crudform.submitedit()}}
                     {{crudform.submitdel()}}
                 </form>
             </td>

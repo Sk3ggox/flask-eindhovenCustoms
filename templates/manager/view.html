@@ -63,15 +63,23 @@
         <th>Name</th>
         <th>OEM</th>
         <th>Amount</th>
+        <th>Minamount</th>
         <th>Options</th>
     </tr>
     {% for value in select_items %}
-    <tr>
-        {% for text in value %}
-            <td>{{text}}</td>
-        {% endfor %}
-            <td><a href="../manager/options/{{ value[1] }}" target="_blank"><button>Options</button></a></td>
-    </tr>
+        <tr>
+            {% if value[3] > value[2] %}
+                {% for text in value %}
+                    <td style="color: #cc3723;">{{text}}</td>
+                {% endfor %}
+                <td><a href="../manager/options/{{ value[1] }}"><button>Options</button></a></td>
+            {% else %}
+                {% for text in value %}
+                    <td>{{text}}</td>
+                {% endfor %}
+                <td><a href="../manager/options/{{ value[1] }}"><button>Options</button></a></td>
+            {% endif %}
+        </tr>
     {% endfor %} 
 
 </table>

@@ -81,7 +81,7 @@
         <div id="child">
             <img src="/static/img/Logo.png">
             <p class="welcomelbl">Welcome back</p>
-            <p class="loginplz">Log in to your account</p>
+            <p class="loginplz">{%trans%}Log in to your account{%endtrans%}</p>
             <div class="flash">
                 {% with messages = get_flashed_messages(category_filter=["logout"]) %}
                 {% if messages %}

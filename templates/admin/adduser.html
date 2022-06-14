@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Dashboard{% endblock %}
+{% block title %}Add user{% endblock %}
 {% block head %}
     {{ super() }}
     <style>
@@ -44,42 +44,19 @@
     <!-- Create manager Navbar with logo, 3 pages, a welcome message displaying username, logout button -->
     <ul>
         <li style="width:250px;height:60;margin:20px 0px 20px 25px;"><img src="/static/img/Logo-nav.png"></li>
-        <li style="margin:25px 25px 25px 25px;"><a href="{{url_for('managerpage')}}" class="active">Search items</a></li>
-        <li style="margin:25px 25px 25px 25px;"><a href="{{url_for('manageraddpage')}}">Add new item</a></li>
+        <li style="margin:25px 25px 25px 25px;"><a href="{{url_for('adminpage')}}">Users</a></li>
+        <li style="margin:25px 25px 25px 25px;"><a href="{{url_for('adduser')}}" class="active">Add user</a></li>
         <li style="float:right;margin:25px 25px 25px 25px;"><a href={{ url_for('user.logout') }} class="logout">{%trans%}Log out{%endtrans%}</a></li>
         <li style="float:right;margin:25px 25px 25px 25px;line-height: 46px;">Welcome back {%if current_user.is_authenticated %}{{current_user.username}}{% endif %}!</li>
     </ul>
 
-<form method="post" action="">
-    {{ form.hidden_tag() }}
-    {{ form.searchitem() }}
-    {{ form.submitsearch() }}
-</form>
-
-<table>
-    <tr>
-        <th>Name</th>
-        <th>OEM</th>
-        <th>Amount</th>
-        <th>Minamount</th>
-        <th>Options</th>
-    </tr>
-    {% for value in select_items %}
-        <tr>
-            {% if value[3] > value[2] %}
-                {% for text in value %}
-                    <td style="color: #cc3723;">{{text}}</td>
-                {% endfor %}
-                <td><a href="../manager/options/{{ value[1] }}"><button>Options</button></a></td>
-            {% else %}
-                {% for text in value %}
-                    <td>{{text}}</td>
-                {% endfor %}
-                <td><a href="../manager/options/{{ value[1] }}"><button>Options</button></a></td>
-            {% endif %}
-        </tr>
-    {% endfor %} 
-
-</table>
+    <form method="post">
+        {{form.hidden_tag()}}
+        {{form.active()}}
+        {{form.username()}}
+        {{form.role()}}
+        {{form.password()}}
+        {{form.submit()}}
+    </form>
 
 {% endblock %}
